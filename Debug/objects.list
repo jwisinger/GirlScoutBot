@@ -32,6 +32,7 @@
 "Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o"
 "Src/MX_app_x-cube-ble1.o"
 "Src/MX_sensor_service.o"
+"Src/app_x-cube-ble1.o"
 "Src/custom_bus.o"
 "Src/freertos.o"
 "Src/hci_tl_interface.o"

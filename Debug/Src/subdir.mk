@@ -6,6 +6,7 @@
 C_SRCS += \
 ../Src/MX_app_x-cube-ble1.c \
 ../Src/MX_sensor_service.c \
+../Src/app_x-cube-ble1.c \
 ../Src/custom_bus.c \
 ../Src/freertos.c \
 ../Src/hci_tl_interface.c \
@@ -21,6 +22,7 @@ C_SRCS += \
 OBJS += \
 ./Src/MX_app_x-cube-ble1.o \
 ./Src/MX_sensor_service.o \
+./Src/app_x-cube-ble1.o \
 ./Src/custom_bus.o \
 ./Src/freertos.o \
 ./Src/hci_tl_interface.o \
@@ -36,6 +38,7 @@ OBJS += \
 C_DEPS += \
 ./Src/MX_app_x-cube-ble1.d \
 ./Src/MX_sensor_service.d \
+./Src/app_x-cube-ble1.d \
 ./Src/custom_bus.d \
 ./Src/freertos.d \
 ./Src/hci_tl_interface.d \

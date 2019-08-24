@@ -31,8 +31,8 @@
 /* Includes ------------------------------------------------------------------*/
 
 /* Exported Functions --------------------------------------------------------*/
-void MX_BlueNRG_MS_Init(void);
-void MX_BlueNRG_MS_Process(void);
+void MX2_BlueNRG_MS_Init(void);
+void MX2_BlueNRG_MS_Process(void);
 
 #ifdef __cplusplus
 }

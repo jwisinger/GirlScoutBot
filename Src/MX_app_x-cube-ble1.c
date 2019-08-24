@@ -53,7 +53,7 @@ extern volatile uint8_t set_connectable;
 extern volatile int     connected;
 uint8_t bnrg_expansion_board = IDB04A1; /* at startup, suppose the X-NUCLEO-IDB04A1 is used */
 
-void MX_BlueNRG_MS_Init(void)
+void MX2_BlueNRG_MS_Init(void)
 {
   /* USER CODE BEGIN SV */ 
 
@@ -173,7 +173,7 @@ void MX_BlueNRG_MS_Init(void)
 /*
  * BlueNRG-MS background task
  */
-void MX_BlueNRG_MS_Process(void)
+void MX2_BlueNRG_MS_Process(void)
 {
 	if (set_connectable)
 	{
