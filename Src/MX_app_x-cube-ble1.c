@@ -24,15 +24,16 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __APP_X_CUBE_BLE1_C
 #define __APP_X_CUBE_BLE1_C
+
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "app_x-cube-ble1.h"
+#include <MX_app_x-cube-ble1.h>
 
 #include "hci_tl.h"
-#include "sensor_service.h"
+#include <MX_sensor_service.h>
 #include "bluenrg_utils.h"
 #include "custom.h"
 #include "bluenrg_gap_aci.h"
@@ -50,36 +51,7 @@
 /* Private variables ---------------------------------------------------------*/
 extern volatile uint8_t set_connectable;
 extern volatile int     connected;
-extern AxesRaw_t        axes_data;
 uint8_t bnrg_expansion_board = IDB04A1; /* at startup, suppose the X-NUCLEO-IDB04A1 is used */
-static volatile uint8_t user_button_init_state = 1;
-static volatile uint8_t user_button_pressed = 0;
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
-static void User_Process(AxesRaw_t* p_axes);
-static void User_Init(void);
-
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-#if PRINT_CSV_FORMAT
-extern volatile uint32_t ms_counter;
-/**
- * @brief  This function is a utility to print the log time
- *         in the format HH:MM:SS:MSS (DK GUI time format)
- * @param  None
- * @retval None
- */
-void print_csv_time(void){
-  uint32_t ms = HAL_GetTick();
-  PRINT_CSV("%02d:%02d:%02d.%03d", ms/(60*60*1000)%24, ms/(60*1000)%60, (ms/1000)%60, ms%1000);
-}
-#endif
 
 void MX_BlueNRG_MS_Init(void)
 {
@@ -100,11 +72,6 @@ void MX_BlueNRG_MS_Init(void)
   uint8_t  hwVersion;
   uint16_t fwVersion;
   int ret;  
-  
-  User_Init();
-
-  /* Get the User Button initial state */
-  user_button_init_state = BSP_PB_GetState(BUTTON_KEY);
   
   hci_init(user_notify, NULL);
   
@@ -208,84 +175,12 @@ void MX_BlueNRG_MS_Init(void)
  */
 void MX_BlueNRG_MS_Process(void)
 {
-  /* USER CODE BEGIN BlueNRG_MS_Process_PreTreatment */
-  
-  /* USER CODE END BlueNRG_MS_Process_PreTreatment */
-  
-  User_Process(&axes_data);  
-  hci_user_evt_proc();
-
-  /* USER CODE BEGIN BlueNRG_MS_Process_PostTreatment */
-  
-  /* USER CODE END BlueNRG_MS_Process_PostTreatment */
-}
-
-/**
- * @brief  Initialize User process.
- *
- * @param  None
- * @retval None
- */
-static void User_Init(void)
-{
-  //BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
-  //BSP_LED_Init(LED2);
-  
-  //BSP_COM_Init(COM1);
-}
-
-/**
- * @brief  Process user input (i.e. pressing the USER button on Nucleo board)
- *         and send the updated acceleration data to the remote client.
- *
- * @param  AxesRaw_t* p_axes
- * @retval None
- */
-static void User_Process(AxesRaw_t* p_axes)
-{
-  if (set_connectable)
-  {
-    setConnectable();
-    set_connectable = FALSE;
-  }  
-
-  /* Check if the User Button has been pushed */    
-  if (user_button_pressed) 
-  {
-    /* Debouncing */
-    HAL_Delay(50);
-    
-    /* Wait until the User Button is released */
-    while (BSP_PB_GetState(BUTTON_KEY) == !user_button_init_state);
-    
-    /* Debouncing */
-    HAL_Delay(50);
-    
-    BSP_LED_Toggle(LED2);
-    
-    if (connected)
-    {
-      /* Update acceleration data */
-      p_axes->AXIS_X += 100;
-      p_axes->AXIS_Y += 100;
-      p_axes->AXIS_Z += 100;
-      Acc_Update(p_axes);
-    }
-    
-    /* Reset the User Button flag */
-    user_button_pressed = 0;
-  } 
-}
-
-/**
-  * @brief  BSP Push Button callback
-  * @param  Button Specifies the pin connected EXTI line
-  * @retval None.
-  */
-void BSP_PB_Callback(Button_TypeDef Button)
-{
-  /* Set the User Button flag */
-  user_button_pressed = 1;
+	if (set_connectable)
+	{
+		setConnectable();
+		set_connectable = FALSE;
+	}
+	hci_user_evt_proc();
 }
 
 #ifdef __cplusplus

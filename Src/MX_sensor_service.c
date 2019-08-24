@@ -34,7 +34,7 @@
   *
   ******************************************************************************
   */
-#include "sensor_service.h"
+#include <MX_sensor_service.h>
 #include "bluenrg_gap_aci.h"
 #include "bluenrg_gatt_aci.h"
 
@@ -447,7 +447,7 @@ void Read_Request_CB(uint16_t handle)
   }  
   else if(handle == tempCharHandle + 1){
     int16_t data;
-    data = 270 + ((uint64_t)rand()*15)/RAND_MAX; //sensor emulation        
+    data = 270;// + ((uint64_t)rand()*15)/RAND_MAX; //sensor emulation
     Acc_Update((AxesRaw_t*)&axes_data); //FIXME: to overcome issue on Android App
                                         // If the user button is not pressed within
                                         // a short time after the connection,
@@ -458,13 +458,13 @@ void Read_Request_CB(uint16_t handle)
     int32_t data;
 
     HAL_Delay(100);
-    data = 100000 + ((uint64_t)rand()*1000)/RAND_MAX;
+    data = 100000;// + ((uint64_t)rand()*1000)/RAND_MAX;
     Press_Update(data);
   }
   else if(handle == humidityCharHandle + 1){
     uint16_t data;
     
-    data = 450 + ((uint64_t)rand()*100)/RAND_MAX;
+    data = 450;// + ((uint64_t)rand()*100)/RAND_MAX;
     
     Humidity_Update(data);
   }  

@@ -4,14 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/app_x-cube-ble1.c \
+../Src/MX_app_x-cube-ble1.c \
+../Src/MX_sensor_service.c \
 ../Src/custom_bus.c \
 ../Src/freertos.c \
 ../Src/hci_tl_interface.c \
 ../Src/main.c \
 ../Src/motor.c \
-../Src/sensor_service.c \
-../Src/stm32f1_custom.c \
 ../Src/stm32f1xx_hal_exti.c \
 ../Src/stm32f1xx_hal_msp.c \
 ../Src/stm32f1xx_hal_timebase_tim.c \
@@ -20,14 +19,13 @@ C_SRCS += \
 ../Src/system_stm32f1xx.c 
 
 OBJS += \
-./Src/app_x-cube-ble1.o \
+./Src/MX_app_x-cube-ble1.o \
+./Src/MX_sensor_service.o \
 ./Src/custom_bus.o \
 ./Src/freertos.o \
 ./Src/hci_tl_interface.o \
 ./Src/main.o \
 ./Src/motor.o \
-./Src/sensor_service.o \
-./Src/stm32f1_custom.o \
 ./Src/stm32f1xx_hal_exti.o \
 ./Src/stm32f1xx_hal_msp.o \
 ./Src/stm32f1xx_hal_timebase_tim.o \
@@ -36,14 +34,13 @@ OBJS += \
 ./Src/system_stm32f1xx.o 
 
 C_DEPS += \
-./Src/app_x-cube-ble1.d \
+./Src/MX_app_x-cube-ble1.d \
+./Src/MX_sensor_service.d \
 ./Src/custom_bus.d \
 ./Src/freertos.d \
 ./Src/hci_tl_interface.d \
 ./Src/main.d \
 ./Src/motor.d \
-./Src/sensor_service.d \
-./Src/stm32f1_custom.d \
 ./Src/stm32f1xx_hal_exti.d \
 ./Src/stm32f1xx_hal_msp.d \
 ./Src/stm32f1xx_hal_timebase_tim.d \

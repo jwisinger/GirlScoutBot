@@ -107,7 +107,8 @@ static void motorTask(void const * argument)
 
 	while(1)
 	{
-		event = osSignalWait(ANY_SIG, osWaitForever);
+		MX_BlueNRG_MS_Process();
+		/*event = osSignalWait(ANY_SIG, osWaitForever);
 		if(event.value.signals & ENTER_SIG)
 		{
 			sDirectionPos = 0;
@@ -127,13 +128,13 @@ static void motorTask(void const * argument)
 			if(sDirectionMax < DIRECTION_ARRAY_LEN) sDirectionMax++;
 			HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 			osTimerStart(sMotorTimerHandle, 1000);
-		}
+		}*/
 	}
 }
 
 void motorInit(void)
 {
-	osThreadDef(motorTask, motorTask, osPriorityHigh, 0, 128);
+	osThreadDef(motorTask, motorTask, osPriorityHigh, 0, 512);
 	sMotorTaskHandle = osThreadCreate(osThread(motorTask), NULL);
 	osTimerDef(motorTimer, timerCallback);
 	sMotorTimerHandle = osTimerCreate(osTimer(motorTimer), osTimerPeriodic, NULL);
