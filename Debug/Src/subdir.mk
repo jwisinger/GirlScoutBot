@@ -4,7 +4,6 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/MX_app_x-cube-ble1.c \
 ../Src/MX_sensor_service.c \
 ../Src/app_x-cube-ble1.c \
 ../Src/custom_bus.c \
@@ -20,7 +19,6 @@ C_SRCS += \
 ../Src/system_stm32f1xx.c 
 
 OBJS += \
-./Src/MX_app_x-cube-ble1.o \
 ./Src/MX_sensor_service.o \
 ./Src/app_x-cube-ble1.o \
 ./Src/custom_bus.o \
@@ -36,7 +34,6 @@ OBJS += \
 ./Src/system_stm32f1xx.o 
 
 C_DEPS += \
-./Src/MX_app_x-cube-ble1.d \
 ./Src/MX_sensor_service.d \
 ./Src/app_x-cube-ble1.d \
 ./Src/custom_bus.d \

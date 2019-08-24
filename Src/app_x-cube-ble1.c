@@ -32,12 +32,14 @@
 #include "app_x-cube-ble1.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "MX_sensor_service.h"
+#include "bluenrg_gap_aci.h"
+#include "bluenrg_gatt_aci.h"
 /* USER CODE END Includes */
 
 /* Private Variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+ extern volatile uint8_t set_connectable;
 /* USER CODE END PV */
 
 /* Private Function Prototypes -----------------------------------------------*/
@@ -62,7 +64,23 @@ void print_csv_time(void){
 void MX_BlueNRG_MS_Init(void)
 {
   /* USER CODE BEGIN SV */ 
-  MX2_BlueNRG_MS_Init();
+	const char *name = "BlueNRG";
+	uint8_t SERVER_BDADDR[] = {0x12, 0x34, 0x00, 0xE1, 0x80, 0x02};
+	uint8_t bdaddr[sizeof(SERVER_BDADDR)];
+	uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
+
+	hci_init(user_notify, NULL);
+	hci_reset();
+	HAL_Delay(100);
+	BLUENRG_memcpy(bdaddr, SERVER_BDADDR, sizeof(SERVER_BDADDR));
+  	if(aci_hal_write_config_data(CONFIG_DATA_PUBADDR_OFFSET, CONFIG_DATA_PUBADDR_LEN, bdaddr)) return;
+	if(aci_gatt_init()) return;
+	if(aci_gap_init_IDB05A1(GAP_PERIPHERAL_ROLE_IDB05A1, 0, 0x07, &service_handle, &dev_name_char_handle, &appearance_char_handle)) return ;
+	if(aci_gatt_update_char_value(service_handle, dev_name_char_handle, 0, strlen(name), (uint8_t *)name)) return;
+	if(aci_gap_set_auth_requirement(MITM_PROTECTION_REQUIRED, OOB_AUTH_DATA_ABSENT, NULL, 7, 16, USE_FIXED_PIN_FOR_PAIRING, 123456, BONDING)) return;
+	if(Add_Acc_Service()) return;
+	if(Add_Environmental_Sensor_Service()) return;
+	if(aci_hal_set_tx_power_level(1,4)) return;
   /* USER CODE END SV */
   
   /* USER CODE BEGIN BlueNRG_MS_Init_PreTreatment */
@@ -80,7 +98,12 @@ void MX_BlueNRG_MS_Init(void)
 void MX_BlueNRG_MS_Process(void)
 {
   /* USER CODE BEGIN BlueNRG_MS_Process_PreTreatment */
-  MX2_BlueNRG_MS_Process();
+	if (set_connectable)
+	{
+		setConnectable();
+		set_connectable = FALSE;
+	}
+	hci_user_evt_proc();
   /* USER CODE END BlueNRG_MS_Process_PreTreatment */
   
 

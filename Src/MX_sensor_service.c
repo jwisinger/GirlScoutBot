@@ -464,7 +464,7 @@ void Read_Request_CB(uint16_t handle)
   else if(handle == humidityCharHandle + 1){
     uint16_t data;
     
-    data = 450;// + ((uint64_t)rand()*100)/RAND_MAX;
+    data = 750;// + ((uint64_t)rand()*100)/RAND_MAX;
     
     Humidity_Update(data);
   }  
