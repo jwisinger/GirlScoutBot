@@ -257,7 +257,7 @@ void hci_tl_lowlevel_init(void)
   /* Register event irq handler */
   HAL_EXTI_GetHandle(&hexti8, EXTI_LINE_8);
   HAL_EXTI_RegisterCallback(&hexti8, HAL_EXTI_COMMON_CB_ID, hci_tl_lowlevel_isr);
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
   /* USER CODE BEGIN hci_tl_lowlevel_init 3 */
@@ -284,7 +284,7 @@ void hci_tl_lowlevel_isr(void)
   }
 
   /* USER CODE BEGIN hci_tl_lowlevel_isr */
-
+  motorBleSignal();
   /* USER CODE END hci_tl_lowlevel_isr */ 
 }
 

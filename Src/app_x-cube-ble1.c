@@ -35,10 +35,13 @@
 #include "MX_sensor_service.h"
 #include "bluenrg_gap_aci.h"
 #include "bluenrg_gatt_aci.h"
+#include "hci_const.h"
+#include "sm.h"
 /* USER CODE END Includes */
 
 /* Private Variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+#warning TODO: Get rid of this extern
  extern volatile uint8_t set_connectable;
 /* USER CODE END PV */
 
@@ -64,7 +67,8 @@ void print_csv_time(void){
 void MX_BlueNRG_MS_Init(void)
 {
   /* USER CODE BEGIN SV */ 
-	const char *name = "BlueNRG";
+	const char *name = "GS_Bot";
+#warning TODO: Do I need to change the address?
 	uint8_t SERVER_BDADDR[] = {0x12, 0x34, 0x00, 0xE1, 0x80, 0x02};
 	uint8_t bdaddr[sizeof(SERVER_BDADDR)];
 	uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
@@ -78,8 +82,8 @@ void MX_BlueNRG_MS_Init(void)
 	if(aci_gap_init_IDB05A1(GAP_PERIPHERAL_ROLE_IDB05A1, 0, 0x07, &service_handle, &dev_name_char_handle, &appearance_char_handle)) return ;
 	if(aci_gatt_update_char_value(service_handle, dev_name_char_handle, 0, strlen(name), (uint8_t *)name)) return;
 	if(aci_gap_set_auth_requirement(MITM_PROTECTION_REQUIRED, OOB_AUTH_DATA_ABSENT, NULL, 7, 16, USE_FIXED_PIN_FOR_PAIRING, 123456, BONDING)) return;
+#warning TODO: Fix this call
 	if(Add_Acc_Service()) return;
-	if(Add_Environmental_Sensor_Service()) return;
 	if(aci_hal_set_tx_power_level(1,4)) return;
   /* USER CODE END SV */
   
