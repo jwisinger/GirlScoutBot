@@ -24,6 +24,7 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __APP_X_CUBE_BLE1_C
 #define __APP_X_CUBE_BLE1_C
+
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -32,7 +33,7 @@
 #include "app_x-cube-ble1.h"
 
 /* USER CODE BEGIN Includes */
-#include "MX_sensor_service.h"
+#include <ble_service.h>
 #include "bluenrg_gap_aci.h"
 #include "bluenrg_gatt_aci.h"
 #include "hci_const.h"
@@ -41,8 +42,7 @@
 
 /* Private Variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-#warning TODO: Get rid of this extern
- extern volatile uint8_t set_connectable;
+
 /* USER CODE END PV */
 
 /* Private Function Prototypes -----------------------------------------------*/
@@ -73,7 +73,7 @@ void MX_BlueNRG_MS_Init(void)
 	uint8_t bdaddr[sizeof(SERVER_BDADDR)];
 	uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
 
-	hci_init(user_notify, NULL);
+	hci_init(ble_notify, NULL);
 	hci_reset();
 	HAL_Delay(100);
 	BLUENRG_memcpy(bdaddr, SERVER_BDADDR, sizeof(SERVER_BDADDR));
@@ -82,8 +82,7 @@ void MX_BlueNRG_MS_Init(void)
 	if(aci_gap_init_IDB05A1(GAP_PERIPHERAL_ROLE_IDB05A1, 0, 0x07, &service_handle, &dev_name_char_handle, &appearance_char_handle)) return ;
 	if(aci_gatt_update_char_value(service_handle, dev_name_char_handle, 0, strlen(name), (uint8_t *)name)) return;
 	if(aci_gap_set_auth_requirement(MITM_PROTECTION_REQUIRED, OOB_AUTH_DATA_ABSENT, NULL, 7, 16, USE_FIXED_PIN_FOR_PAIRING, 123456, BONDING)) return;
-#warning TODO: Fix this call
-	if(Add_Acc_Service()) return;
+	if(ble_addService()) return;
 	if(aci_hal_set_tx_power_level(1,4)) return;
   /* USER CODE END SV */
   
@@ -102,11 +101,7 @@ void MX_BlueNRG_MS_Init(void)
 void MX_BlueNRG_MS_Process(void)
 {
   /* USER CODE BEGIN BlueNRG_MS_Process_PreTreatment */
-	if (set_connectable)
-	{
-		setConnectable();
-		set_connectable = FALSE;
-	}
+	if(ble_isConnectable()) ble_setConnectable();
 	hci_user_evt_proc();
   /* USER CODE END BlueNRG_MS_Process_PreTreatment */
   
