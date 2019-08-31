@@ -24,7 +24,6 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __APP_X_CUBE_BLE1_C
 #define __APP_X_CUBE_BLE1_C
-
 #ifdef __cplusplus
  extern "C" {
 #endif
